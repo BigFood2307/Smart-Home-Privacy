@@ -1,9 +1,0 @@
-curl -G "http://192.168.178.177:8086/query?db=openhab_db" --data-urlencode "q=SELECT \"value\" FROM \"EG_EZ_Fenster3_Contact\" WHERE time > now() - 90d" >> EG_EZ_Fenster3_Contact.json
-
-curl -G "http://192.168.178.177:8086/query?db=openhab_db" --data-urlencode "q=SELECT \"value\" FROM \"EG_WZ_Fenster2_Contact\" WHERE time > now() - 90d" >> EG_WZ_Fenster2_Contact.json
-
-curl -G "http://192.168.178.177:8086/query?db=openhab_db" --data-urlencode "q=SELECT \"value\" FROM \"EG_FL_Haustuer_Contact\" WHERE time > now() - 90d" >> EG_FL_Haustuer_Contact.json
-
-curl -G "http://192.168.178.177:8086/query?db=openhab_db" --data-urlencode "q=SELECT \"value\" FROM \"OG_BA_Fenster1_Contact\" WHERE time > now() - 90d" >> OG_BA_Fenster1_Contact.json
-
-curl -G "http://192.168.178.177:8086/query?db=openhab_db" --data-urlencode "q=SELECT \"value\" FROM \"EG_WC_Fenster1_Contact\" WHERE time > now() - 90d" >> EG_WC_Fenster1_Contact.json

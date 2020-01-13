@@ -9,6 +9,7 @@ switches = []
 states = []
 
 for line in file:
+	#Zeilenweise Analyse der Kalenderdatei
 	cleanline = line.strip()
 	if state == "ready":
 		if cleanline == "BEGIN:VEVENT":
@@ -17,11 +18,13 @@ for line in file:
 			continue
 	if state == "event":
 		if cleanline.startswith("DTSTART:"):
+			#Hier ist das Datum gespeichert, die 2 Wochen Verschiebung für die Anwesenheitssimulation, sowie eine Anpassung an die Zeitzone werden hier beachtet.
 			newdate = datetime.datetime(int(cleanline[8:12]), int(cleanline[12:14]),int(cleanline[14:16]), int(cleanline[17:19]), int(cleanline[19:21]), int(cleanline[21:23])) - datetime.timedelta(weeks=2) + datetime.timedelta(hours=1)
 			dates.append(newdate)
 			#print(newdate.isoformat())
 			continue
 		if cleanline.startswith("DESCRIPTION:send "):
+			#Die Daten, welcher Schater geschalten wurde und welchen Status er nun hat kommen in einem festen Format
 			newswitch = cleanline.split(" ")[1]
 			newstate = (cleanline.split(" ")[2] == "ON")
 			switches.append(newswitch)
@@ -34,6 +37,7 @@ for line in file:
 		
 offtimes = []
 
+#Das letzte Schalten eines Bestimmten Schalters pro Tag wird gesucht
 lastoff = datetime.datetime.min
 for i in range(len(dates)):
 	if switches[i] == "OG_SZ_SchalterSZ1_Power" and not states[i]:
@@ -43,13 +47,15 @@ for i in range(len(dates)):
 		
 ontimes = []
 
+#Das erste Schalten eines Bestimmten Schalters pro Tag wird gesucht
 laston = datetime.datetime.min
 for i in range(len(dates)):
 	if (switches[i] == "OG_SZ_SchalterSZ1_Power") and states[i]:
 		if(laston.date() < dates[i].date()) and (dates[i].time() < datetime.time(10) and (dates[i].time() > datetime.time(4, 30))):
 			ontimes.append(dates[i])
 		laston = dates[i]
-		
+
+#Berechnung der Durchschnittszeiten für morgens und abends, jeweils am Wochenende und unter der Woche
 offsum = 0
 offsumweekday = 0
 offlenweekday = 0
